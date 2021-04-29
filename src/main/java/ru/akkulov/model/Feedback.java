@@ -1,4 +1,4 @@
-package ru.akkulov.entity;
+package ru.akkulov.model;
 
 import lombok.Data;
 

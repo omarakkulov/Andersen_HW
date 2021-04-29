@@ -1,17 +1,17 @@
-import ru.akkulov.entity.Employee;
-import ru.akkulov.service.EmployeeService;
-
-import java.util.List;
+import ru.akkulov.dao.TeamDAO;
+import ru.akkulov.model.Employee;
+import ru.akkulov.dao.EmployeeDAO;
+import ru.akkulov.model.Team;
 
 public class Main {
     public static void main(String[] args) {
-        EmployeeService employeeService = new EmployeeService();
+        EmployeeDAO employeeDAO = new EmployeeDAO();
 
         Employee employee = new Employee();
-        employee.setFirst_name("Omasdasdasdar");
-        employee.setLast_name("Akkuasdasdasdlov");
-        employee.setEmail("omar-akkasdasdasdulov@mail.ru");
-        employee.setPhone("8921768asdasdasd3330");
+        employee.setFirst_name("Omar");
+        employee.setLast_name("Akkulov");
+        employee.setEmail("omar-akkulov@mail.ru");
+        employee.setPhone("89217683330");
         employee.setDate_of_birth("15.05.1999");
         employee.setExperience(1);
         employee.setDate_of_employment("21.05.2021");
@@ -19,15 +19,11 @@ public class Main {
         employee.setEng_level("b1");
         employee.setSkype("omarakkulov");
 
-        employeeService.add(employee);
+        TeamDAO teamDAO = new TeamDAO();
+        Team team = new Team();
+        team.setName("MyTeam");
+        team.setEmployer_id(employee.getId());
 
-//        Employee employee1 = employeeService.getById(4L);
-//        System.out.println(employee1);
-
-//
-//        List<Employee> list = employeeService.getAll();
-//        for (Employee e : list) {
-//            System.out.println(e);
-//        }
+        teamDAO.add(team);
     }
 }
