@@ -1,0 +1,10 @@
+ru\akkulov\entity\Feedback.class
+Main.class
+ru\akkulov\entity\Project.class
+ru\akkulov\service\EmployeeService.class
+ru\akkulov\connection\ConnectionPool.class
+ru\akkulov\dao\EmployeeDAO.class
+ru\akkulov\connection\SimpleConnectionPool.class
+ru\akkulov\entity\Employee.class
+ru\akkulov\dao\CrudDAO.class
+ru\akkulov\entity\Team.class
