@@ -6,5 +6,5 @@ import lombok.Data;
 public class Team {
     private int id;
     private String name;
-    private Long employer_id;
+    private int employee_id;
 }

@@ -1,7 +1,7 @@
 import ru.akkulov.dao.TeamDAO;
 import ru.akkulov.model.Employee;
 import ru.akkulov.dao.EmployeeDAO;
-import ru.akkulov.model.Team;
+import ru.akkulov.service.EmployeeService;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,11 +19,7 @@ public class Main {
         employee.setEng_level("b1");
         employee.setSkype("omarakkulov");
 
-        TeamDAO teamDAO = new TeamDAO();
-        Team team = new Team();
-        team.setName("MyTeam");
-        team.setEmployer_id(employee.getId());
-
-        teamDAO.add(team);
+        EmployeeService employeeService = new EmployeeService();
+        employeeService.add(employee);
     }
 }

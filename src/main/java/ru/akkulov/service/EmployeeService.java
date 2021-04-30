@@ -10,12 +10,16 @@ import java.util.List;
 public class EmployeeService {
     private EmployeeDAO employeeDAO;
 
+    public EmployeeService() {
+        employeeDAO = new EmployeeDAO();
+    }
+
     public void add(Employee employee) {
-        employeeDAO.add(employee);
+        employeeDAO.create(employee);
     }
 
     public List<Employee> getAll() {
-        return employeeDAO.getAll();
+        return employeeDAO.readAll();
     }
 
     public Employee getById(Integer id) {

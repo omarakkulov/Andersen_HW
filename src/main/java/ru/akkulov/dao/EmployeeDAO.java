@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDAO implements CrudDAO<Employee, Integer> {
+public class EmployeeDAO implements CrudDAO<Employee> {
 
     SimpleProperties properties = SimpleProperties.getProperties();
 
@@ -32,22 +32,22 @@ public class EmployeeDAO implements CrudDAO<Employee, Integer> {
     private static final String DELETE_BY_ID_SQL_QUERY = "DELETE FROM employee WHERE id=?;";
 
     @Override
-    public void add(Employee employee) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
+    public void create(Employee employee) {
+        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(),
+                properties.getUser(),
                 properties.getPassword()).
                 getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_SQL_QUERY)
         ) {
-
             preparedStatement.setString(1, employee.getFirst_name());
             preparedStatement.setString(2, employee.getLast_name());
             preparedStatement.setString(3, employee.getEmail());
             preparedStatement.setString(4, employee.getPhone());
-            preparedStatement.setString(5, employee.getDate_of_birth());
+            preparedStatement.setDate(5, new Date(employee.getDate_of_birth().getTime()));
             preparedStatement.setInt(6, employee.getExperience());
-            preparedStatement.setString(7, employee.getDate_of_employment());
-            preparedStatement.setString(8, employee.getSkill_level());
-            preparedStatement.setString(9, employee.getEng_level());
+            preparedStatement.setDate(7, new Date(employee.getDate_of_employment().getTime()));
+            preparedStatement.setString(8, employee.getSkill_level().name());
+            preparedStatement.setString(9, employee.getEng_level().name());
             preparedStatement.setString(10, employee.getSkype());
 
             preparedStatement.executeUpdate();
@@ -57,9 +57,8 @@ public class EmployeeDAO implements CrudDAO<Employee, Integer> {
     }
 
     @Override
-    public List<Employee> getAll() {
+    public List<Employee> readAll() {
         List<Employee> employeeList = new ArrayList<>();
-
 
         try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
                 properties.getPassword()).
@@ -72,16 +71,16 @@ public class EmployeeDAO implements CrudDAO<Employee, Integer> {
             while (resultSet.next()) {
                 Employee employee = new Employee();
 
-                employee.setId(resultSet.getLong("id"));
+                employee.setId(resultSet.getInt("id"));
                 employee.setFirst_name(resultSet.getString("first_name"));
                 employee.setLast_name(resultSet.getString("last_name"));
                 employee.setEmail(resultSet.getString("email"));
                 employee.setPhone(resultSet.getString("phone"));
-                employee.setDate_of_birth(resultSet.getString("date_of_birth"));
+                employee.setDate_of_birth(resultSet.getDate("date_of_birth"));
                 employee.setExperience(resultSet.getInt("experience"));
-                employee.setDate_of_employment(resultSet.getString("date_of_employment"));
-                employee.setEng_level(resultSet.getString("skill_level"));
-                employee.setSkill_level(resultSet.getString("eng_level"));
+                employee.setDate_of_employment(resultSet.getDate("date_of_employment"));
+                employee.setSkill_level(Employee.Skill_level.valueOf(resultSet.getString("skill_level")));
+                employee.setEng_level(Employee.Eng_level.valueOf(resultSet.getString("eng_level")));
                 employee.setSkype(resultSet.getString("skype"));
 
                 employeeList.add(employee);
@@ -94,7 +93,7 @@ public class EmployeeDAO implements CrudDAO<Employee, Integer> {
     }
 
     @Override
-    public Employee getById(Integer id) {
+    public Employee getById(int id) {
         Employee employee = new Employee();
 
         try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
@@ -107,16 +106,16 @@ public class EmployeeDAO implements CrudDAO<Employee, Integer> {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                employee.setId(resultSet.getLong("id"));
+                employee.setId(resultSet.getInt("id"));
                 employee.setFirst_name(resultSet.getString("first_name"));
                 employee.setLast_name(resultSet.getString("last_name"));
                 employee.setEmail(resultSet.getString("email"));
                 employee.setPhone(resultSet.getString("phone"));
-                employee.setDate_of_birth(resultSet.getString("date_of_birth"));
+                employee.setDate_of_birth(resultSet.getDate("date_of_birth"));
                 employee.setExperience(resultSet.getInt("experience"));
-                employee.setDate_of_employment(resultSet.getString("date_of_employment"));
-                employee.setEng_level(resultSet.getString("skill_level"));
-                employee.setSkill_level(resultSet.getString("eng_level"));
+                employee.setDate_of_employment(resultSet.getDate("date_of_employment"));
+                employee.setSkill_level(Employee.Skill_level.valueOf(resultSet.getString("skill_level")));
+                employee.setEng_level(Employee.Eng_level.valueOf(resultSet.getString("eng_level")));
                 employee.setSkype(resultSet.getString("skype"));
             }
         } catch (SQLException e) {
@@ -136,11 +135,11 @@ public class EmployeeDAO implements CrudDAO<Employee, Integer> {
             preparedStatement.setString(2, employee.getLast_name());
             preparedStatement.setString(3, employee.getEmail());
             preparedStatement.setString(4, employee.getPhone());
-            preparedStatement.setString(5, employee.getDate_of_birth());
+            preparedStatement.setDate(5, new Date(employee.getDate_of_birth().getTime()));
             preparedStatement.setInt(6, employee.getExperience());
-            preparedStatement.setString(7, employee.getDate_of_employment());
-            preparedStatement.setString(8, employee.getSkill_level());
-            preparedStatement.setString(9, employee.getEng_level());
+            preparedStatement.setDate(7, new Date(employee.getDate_of_employment().getTime()));
+            preparedStatement.setString(8, employee.getSkill_level().name());
+            preparedStatement.setString(9, employee.getEng_level().name());
             preparedStatement.setString(10, employee.getSkype());
 
             preparedStatement.executeUpdate();
@@ -150,7 +149,7 @@ public class EmployeeDAO implements CrudDAO<Employee, Integer> {
     }
 
     @Override
-    public void deleteOne(Integer id) {
+    public void deleteOne(int id) {
         try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
                 properties.getPassword()).
                 getConnection();

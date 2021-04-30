@@ -12,10 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamDAO implements CrudDAO<Team, Integer> {
+public class TeamDAO implements CrudDAO<Team> {
     SimpleProperties properties = SimpleProperties.getProperties();
 
-    private static final String ADD_SQL_QUERY = "INSERT INTO team (name) VALUES (?);";
+    private static final String ADD_SQL_QUERY = "INSERT INTO team (name, employee_id) VALUES (?, ?);";
 
     private static final String SELECT_ALL_SQL_QUERY = "SELECT * FROM team;";
 
@@ -26,8 +26,9 @@ public class TeamDAO implements CrudDAO<Team, Integer> {
     private static final String DELETE_BY_ID_SQL_QUERY = "DELETE FROM team WHERE id=?;";
 
     @Override
-    public void add(Team team) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
+    public void create(Team team) {
+        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(),
+                properties.getUser(),
                 properties.getPassword()).
                 getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_SQL_QUERY)
@@ -41,7 +42,7 @@ public class TeamDAO implements CrudDAO<Team, Integer> {
     }
 
     @Override
-    public List<Team> getAll() {
+    public List<Team> readAll() {
         List<Team> teamsList = new ArrayList<>();
         try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
                 properties.getPassword()).
@@ -52,12 +53,12 @@ public class TeamDAO implements CrudDAO<Team, Integer> {
 
             while (resultSet.next()) {
                 Employee employee = new Employee();
-                employee.setId(resultSet.getLong("employer_id"));
+                employee.setId(resultSet.getInt("employer_id"));
 
                 Team team = new Team();
                 team.setId(resultSet.getInt("id"));
                 team.setName(resultSet.getString("name"));
-                team.setEmployer_id(employee.getId());
+                team.setEmployee_id(employee.getId());
             }
 
             preparedStatement.executeUpdate();
@@ -68,7 +69,7 @@ public class TeamDAO implements CrudDAO<Team, Integer> {
     }
 
     @Override
-    public Team getById(Integer id) {
+    public Team getById(int id) {
         Team team = new Team();
 
         try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
@@ -83,7 +84,7 @@ public class TeamDAO implements CrudDAO<Team, Integer> {
             while (resultSet.next()) {
                 team.setId(resultSet.getInt("id"));
                 team.setName(resultSet.getString("name"));
-                team.setEmployer_id(resultSet.getLong("employee_id"));
+                team.setEmployee_id(resultSet.getInt("employee_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,7 +100,7 @@ public class TeamDAO implements CrudDAO<Team, Integer> {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ONE_SQL_QUERY)
         ) {
             preparedStatement.setString(1, team.getName());
-            preparedStatement.setLong(2, team.getEmployer_id());
+            preparedStatement.setLong(2, team.getEmployee_id());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -108,7 +109,7 @@ public class TeamDAO implements CrudDAO<Team, Integer> {
     }
 
     @Override
-    public void deleteOne(Integer id) {
+    public void deleteOne(int id) {
         try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
                 properties.getPassword()).
                 getConnection();
