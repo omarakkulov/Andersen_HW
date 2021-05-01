@@ -1,0 +1,49 @@
+-- create table if not exists team
+-- (
+--     id   serial primary key,
+--     name varchar(50)
+-- );
+--
+--
+-- create table if not exists project
+-- (
+--     id          serial primary key,
+--     name        varchar(50),
+--     customer    varchar(100),
+--     duration    integer,
+--     methodology varchar(50),
+--     team_id     integer REFERENCES team (id) not null
+-- );
+--
+--
+-- create table if not exists employee
+-- (
+--     id                 serial primary key,
+--     first_name         varchar(50),
+--     last_name          varchar(50),
+--     email              varchar(50),
+--     phone              varchar(50),
+--     date_of_birth      varchar(50),
+--     experience         INTEGER,
+--     date_of_employment varchar(50),
+--     skill_level        varchar(50),
+--     eng_level          varchar(50),
+--     skype              varchar(50),
+--     team_id            integer REFERENCES team (id)    not null,
+--     project_id         integer REFERENCES project (id) not null
+-- );
+--
+--
+-- create table if not exists feedback
+-- (
+--     id          serial primary key,
+--     description text,
+--     date        varchar(50),
+--     employee_id integer REFERENCES employee (id) not null
+-- );
+
+-- drop table feedback;
+-- drop table employee;
+-- drop table project;
+-- drop table team;
+
