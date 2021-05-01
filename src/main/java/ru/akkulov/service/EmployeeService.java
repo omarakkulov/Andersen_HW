@@ -14,7 +14,7 @@ public class EmployeeService {
         employeeDAO = new EmployeeDAO();
     }
 
-    public void add(Employee employee) {
+    public void create(Employee employee) {
         employeeDAO.create(employee);
     }
 
@@ -22,15 +22,15 @@ public class EmployeeService {
         return employeeDAO.readAll();
     }
 
-    public Employee getById(Integer id) {
+    public Employee getById(int id) {
         return employeeDAO.getById(id);
     }
 
-    public void updateOne(Employee employee) {
-        employeeDAO.updateOne(employee);
+    public void updateOne(Employee employee, int id) {
+        employeeDAO.updateOne(employee, id);
     }
 
-    public void deleteOne(Integer id) {
+    public void deleteOne(int id) {
         employeeDAO.deleteOne(id);
     }
 }

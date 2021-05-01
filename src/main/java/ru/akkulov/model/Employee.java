@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -15,12 +15,14 @@ public class Employee {
     private String last_name;
     private String email;
     private String phone;
-    private Date date_of_birth;
+    private LocalDate date_of_birth;
     private int experience;
-    private Date date_of_employment;
+    private LocalDate date_of_employment;
     private Skill_level skill_level;
     private Eng_level eng_level;
     private String skype;
+    private int team_id;
+    private int project_id;
 
     public enum Skill_level {
         J1, J2, J3, M1, M2, M3, S1, S2, S3;
