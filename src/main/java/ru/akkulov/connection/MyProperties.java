@@ -7,19 +7,19 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Data
-public class SimpleProperties {
+public class MyProperties {
     private FileInputStream inputStream;
     private Properties properties = new Properties();
     private String url = "";
     private String user = "";
     private String password = "";
 
-    private SimpleProperties() {
+    private MyProperties() {
         downloadProperties();
     }
 
-    public static SimpleProperties getProperties() {
-        return new SimpleProperties();
+    public static MyProperties getProperties() {
+        return new MyProperties();
     }
 
     private void downloadProperties() {

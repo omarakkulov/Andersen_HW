@@ -19,7 +19,7 @@ public class Project {
         Person, Scientific_Corporation, Ministry_Of_Defence, Police
     }
 
-    public enum Methodology{
+    public enum Methodology {
         Object_Oriented_Programming,
         Functional_Programming,
         Procedural_Programming,
