@@ -43,5 +43,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.tomee/javaee-api -->
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0-5</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 </project>

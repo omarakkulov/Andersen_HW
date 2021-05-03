@@ -1,17 +1,13 @@
 package ru.akkulov.dao;
 
-import ru.akkulov.connection.SimpleConnectionPool;
+import ru.akkulov.connection.MyConnectionPool;
 import ru.akkulov.model.Employee;
-import ru.akkulov.connection.SimpleProperties;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAO {
-
-    private final SimpleProperties properties = SimpleProperties.getProperties();
-
     // create
     private static final String ADD_SQL_QUERY = "INSERT INTO employee (first_name, last_name, email, phone, date_of_birth, " +
             "experience, date_of_employment, skill_level, eng_level, skype, team_id, project_id) " +
@@ -31,10 +27,7 @@ public class EmployeeDAO {
 
 
     public void create(Employee employee) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(),
-                properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_SQL_QUERY)
         ) {
             preparedStatement.setString(1, employee.getFirst_name());
@@ -60,9 +53,7 @@ public class EmployeeDAO {
     public List<Employee> readAll() {
         List<Employee> employeeList = new ArrayList<>();
 
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_SQL_QUERY)
         ) {
 
@@ -96,9 +87,7 @@ public class EmployeeDAO {
     public Employee getById(int id) {
         Employee employee = new Employee();
 
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_ID_SQL_QUERY)
         ) {
 
@@ -128,9 +117,7 @@ public class EmployeeDAO {
 
 
     public void updateOne(Employee employee, int id) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ONE_SQL_QUERY)
         ) {
             preparedStatement.setString(1, employee.getFirst_name());
@@ -153,9 +140,7 @@ public class EmployeeDAO {
 
 
     public void deleteOne(int id) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_SQL_QUERY)
         ) {
             preparedStatement.setInt(1, id);

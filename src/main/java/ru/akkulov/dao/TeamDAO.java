@@ -1,8 +1,7 @@
 package ru.akkulov.dao;
 
-import ru.akkulov.connection.SimpleConnectionPool;
+import ru.akkulov.connection.MyConnectionPool;
 import ru.akkulov.model.Team;
-import ru.akkulov.connection.SimpleProperties;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamDAO {
-    private final SimpleProperties properties = SimpleProperties.getProperties();
-
     private static final String ADD_SQL_QUERY = "INSERT INTO team (name) VALUES (?);";
 
     private static final String SELECT_ALL_SQL_QUERY = "SELECT * FROM team;";
@@ -26,10 +23,7 @@ public class TeamDAO {
 
 
     public void create(Team team) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(),
-                properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_SQL_QUERY)
         ) {
             preparedStatement.setString(1, team.getName().name());
@@ -44,9 +38,7 @@ public class TeamDAO {
     public List<Team> readAll() {
         List<Team> teamsList = new ArrayList<>();
 
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_SQL_QUERY)
         ) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -69,9 +61,7 @@ public class TeamDAO {
     public Team getById(int team_id) {
         Team team = new Team();
 
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_ID_SQL_QUERY)
         ) {
             preparedStatement.setInt(1, team_id);
@@ -90,9 +80,7 @@ public class TeamDAO {
 
 
     public void updateOne(int team_id, Team.Names new_team_name) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ONE_SQL_QUERY)
         ) {
             preparedStatement.setString(1, new_team_name.name());
@@ -106,9 +94,7 @@ public class TeamDAO {
 
 
     public void deleteOne(int team_id) {
-        try (Connection connection = SimpleConnectionPool.create(properties.getUrl(), properties.getUser(),
-                properties.getPassword()).
-                getConnection();
+        try (Connection connection = MyConnectionPool.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_SQL_QUERY)
         ) {
             preparedStatement.setInt(1, team_id);
