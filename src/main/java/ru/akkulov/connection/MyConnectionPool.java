@@ -7,13 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyConnectionPool implements ConnectionPool {
-    private static MyProperties properties;
-    private String url;
-    private String user;
-    private String password;
-    private List<Connection> connectionPool;
-    private List<Connection> usedConnections = new ArrayList<>();
-    private static int INITIAL_POOL_SIZE = 10;
+    private final String url;
+    private final String user;
+    private final String password;
+    private final List<Connection> connectionPool;
+    private final List<Connection> usedConnections = new ArrayList<>();
+    private static final int INITIAL_POOL_SIZE = 10;
     private static final int MAX_POOL_SIZE = 30;
     private static final int MAX_TIMEOUT = 3;
 
@@ -25,11 +24,11 @@ public class MyConnectionPool implements ConnectionPool {
     }
 
     public static MyConnectionPool create() {
-        properties = MyProperties.getProperties();
+//        MyProperties properties = MyProperties.getProperties();
 
-        String url = properties.getUrl();
-        String user = properties.getUser();
-        String password = properties.getPassword();
+        String url = "jdbc:postgresql://localhost:5432/andersen_hw2";
+        String user = "postgres";
+        String password = "root";
 
         List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
         try {
@@ -68,6 +67,11 @@ public class MyConnectionPool implements ConnectionPool {
     }
 
     private static Connection createConnection(String url, String user, String password) throws SQLException {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return DriverManager.getConnection(url, user, password);
     }
 }
