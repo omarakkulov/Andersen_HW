@@ -12,4 +12,13 @@
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/hello-world</url-pattern>
     </servlet-mapping>
+
+<!--    <servlet>-->
+<!--        <servlet-name>HelloJSP</servlet-name>-->
+<!--       <jsp-file>/view/helloJSP.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>HelloJSP</servlet-name>-->
+<!--        <url-pattern>/hello-world-jsp</url-pattern>-->
+<!--    </servlet-mapping>-->
 </web-app>
